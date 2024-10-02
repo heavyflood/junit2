@@ -7,11 +7,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -20,7 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DemoApplication.class)
 public class SampleTests {
 	
@@ -57,6 +58,18 @@ public class SampleTests {
     @Test
     @DisplayName("TEST1")
     void sampleTest() throws Exception{
+
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/sample/test")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("OK"));
+
+    }
+
+    @Test
+    @DisplayName("TEST2")
+    void sampleTest2() throws Exception{
 
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/sample/test")
                         .contentType(MediaType.APPLICATION_JSON)
