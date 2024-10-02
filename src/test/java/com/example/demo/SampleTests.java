@@ -1,27 +1,42 @@
 package com.example.demo;
 
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = DemoApplication.class)
 public class SampleTests {
 	
-	private static UserDto userDto;
-	
-    @BeforeAll
-    static void setup() {
-    	
-    	userDto = UserDto.builder()
-    			.userId("heavyflood")
-    			.password("1234")
-    			.userName("홍길동")
-    			.age("50")
-    			.build();
-    	
-        System.out.println("@BeforeAll - " + userDto.toString());
+    @InjectMocks
+    SampleController sampleController;
+
+    @Autowired
+    protected WebApplicationContext webApplicationContext;
+
+    protected MockMvc mockMvc;
+    @BeforeEach
+    public void init(WebApplicationContext webApplicationContext) { // mockMvc 초기화, 각메서드가 실행되기전에 초기화 되게 함
+        // mockMvc = MockMvcBuilders.standaloneSetup(memberController).build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+                .addFilters(new CharacterEncodingFilter("UTF-8", true))
+                .build();
     }
 
     @BeforeEach
@@ -40,17 +55,15 @@ public class SampleTests {
     }
 
     @Test
-    @DisplayName("첫번째 테스트")
-    void successTest1() {
-        System.out.println("executes successTest1");
-        assumeTrue(userDto.getUserId().toString().equals("heavyflood"));
-    }
+    @DisplayName("TEST1")
+    void sampleTest() throws Exception{
 
-    @Test
-    @DisplayName("두번째 테스트")
-    void successTest2() {
-        System.out.println("executes successTest2");
-        assumeTrue(userDto.getUserId().toString().equals("heavyflood1"));
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/sample/test")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("OK"));
+
     }
 
 }
