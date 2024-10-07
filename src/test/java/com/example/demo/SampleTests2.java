@@ -52,7 +52,7 @@ public class SampleTests2 {
     }
 
     @Test
-    @DisplayName("TEST3")
+    @DisplayName("로그인 후처리 테스트")
     void sampleTest() throws Exception{
 
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/sample/test")
@@ -64,7 +64,7 @@ public class SampleTests2 {
     }
 
     @Test
-    @DisplayName("TEST4")
+    @DisplayName("로그인 로그 조회 테스트")
     void sampleTest2() throws Exception{
 
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/sample/test")
