@@ -56,7 +56,7 @@ public class SampleTests {
     }
 
     @Test
-    @DisplayName("ID/PW 로그인 테스트")
+    @DisplayName("단위테스트#1")
     void sampleTest() throws Exception{
 
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/sample/test")
@@ -68,7 +68,7 @@ public class SampleTests {
     }
 
     @Test
-    @DisplayName("ID/PW 정합성 테스트")
+    @DisplayName("단위테스트#2")
     void sampleTest2() throws Exception{
 
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/sample/test")
@@ -78,5 +78,4 @@ public class SampleTests {
                 .andExpect(content().string("OK"));
 
     }
-
 }
