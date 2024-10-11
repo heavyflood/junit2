@@ -64,7 +64,6 @@ public class SampleTests {
                         .characterEncoding("UTF-8"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("OK"));
-
     }
 
     @Test
