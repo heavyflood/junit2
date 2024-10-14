@@ -56,7 +56,7 @@ public class SampleTests {
     }
 
     @Test
-    @DisplayName("단위테스트#1")
+    @DisplayName("로그인이력저장 단위테스트")
     void sampleTest() throws Exception{
 
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/sample/test")
@@ -64,17 +64,5 @@ public class SampleTests {
                         .characterEncoding("UTF-8"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("OK"));
-    }
-
-    @Test
-    @DisplayName("단위테스트#2")
-    void sampleTest2() throws Exception{
-
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/sample/test")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .characterEncoding("UTF-8"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("OK"));
-
     }
 }
