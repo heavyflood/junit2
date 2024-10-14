@@ -65,4 +65,15 @@ public class SampleTests {
                 .andExpect(status().isOk())
                 .andExpect(content().string("OK"));
     }
+    @Test
+    @DisplayName("로그인이력조회 단위테스트")
+    void sampleTest2() throws Exception{
+
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/sample/test")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("OK"));
+    }
+
 }
