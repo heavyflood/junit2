@@ -18,7 +18,8 @@
 
 stages:          # List of stages for jobs, and their order of execution
   - build
-  - test
+#  - test
+  - package
   - deploy
 
 build-job:       # This job runs in the build stage, which runs first.
@@ -26,25 +27,39 @@ build-job:       # This job runs in the build stage, which runs first.
   image: gradle:8.4.0-jdk17
   script:
     - echo "Compiling the code..."
-    - echo "Compile complete."
     - chmod +x ./gradlew
     - ./gradlew clean
     - ./gradlew build
+    - echo "Compile complete."
   artifacts:
     paths: 
         - build/libs/*.jar
     expire_in: 30 days
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
-  image: gradle:8.4.0-jdk17
-  script:
-    - echo "Running unit tests... This will take about 60 seconds."
-    - sleep 60
-    - echo "Code coverage is 90%"
-    - chmod +x ./gradlew
-    - ./gradlew clean
-    - ./gradlew test
 
+#unit-test-job:   # This job runs in the test stage.
+#  stage: test    # It only starts when the job in the build stage completes successfully.
+#  image: gradle:8.4.0-jdk17
+#  script:
+#    - chmod +x ./gradlew
+#    - ./gradlew clean
+#    - ./gradlew test
+package:
+  stage: package
+  image: docker:stable
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u heavyflood -p **0118ghdtn!!
+  script:
+    - mv ./build/libs/demo-0.0.1-SNAPSHOT.jar ./junit-test.jar
+    - docker image build -t junit-test --no-cache .
+    - docker image tag junit-test heavyflood/junit-test
+    - docker image push heavyflood/junit-test   # Container Registry에 image push
+  # script가 실행된 후 수행 될 script
+  after_script:
+    - docker run --name=app -d -p 8081:8081 heavyflood/junit-test .
+  only:
+    - master    
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   environment: production
