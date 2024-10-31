@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17
 MAINTAINER 'heavyflood' 'hs.park@strato.co.kr'
 VOLUME /tmp
 ARG SERVER_ENV=dev
