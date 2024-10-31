@@ -57,8 +57,8 @@ package:
     - docker build -t heavyflood/app:latest   # Dockerfile로 build
     - docker push heavyflood/app:latest   # Container Registry에 image push
   # script가 실행된 후 수행 될 script
-  after_script:
-    - docker logout   # GitLab Container Registry 로그아웃
+  #after_script:
+  #  - docker logout   # GitLab Container Registry 로그아웃
   # JOB이 수행될 branch 설정 (설정된 branch에 push가 발생될 시 JOB 수행)
   only:
     - master    
