@@ -19,6 +19,7 @@
 stages:          # List of stages for jobs, and their order of execution
   - build
   - test
+  - package
   - deploy
 
 build-job:       # This job runs in the build stage, which runs first.
@@ -44,7 +45,23 @@ unit-test-job:   # This job runs in the test stage.
     - chmod +x ./gradlew
     - ./gradlew clean
     - ./gradlew test
-
+package:
+  stage: package
+  image: docker:latest
+  services:
+    - docker: dind
+  before_script:
+    - docker login -u heavyflood -p **0118ghdtn!!
+  script:
+    - mv ./build/libs/demo-0.0.1-SNAPSHOT.jar ./app.jar
+    - docker build -t heavyflood/app:latest   # Dockerfile로 build
+    - docker push heavyflood/app:latest   # Container Registry에 image push
+  # script가 실행된 후 수행 될 script
+  after_script:
+    - docker logout   # GitLab Container Registry 로그아웃
+  # JOB이 수행될 branch 설정 (설정된 branch에 push가 발생될 시 JOB 수행)
+  only:
+    - master    
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
   environment: production
