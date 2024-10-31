@@ -45,11 +45,10 @@ build-job:       # This job runs in the build stage, which runs first.
 #    - ./gradlew test
 package:
   stage: package
-  image: docker:latest
+  image: docker:stable
   services:
     - docker:dind
   before_script:
-    - unset DOCKER_HOST
     - docker login -u heavyflood -p **0118ghdtn!!
   script:
     - mv ./build/libs/demo-0.0.1-SNAPSHOT.jar ./junit-test.jar
