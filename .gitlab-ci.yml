@@ -49,7 +49,7 @@ package:
   stage: package
   image: docker:latest
   services:
-    - docker: dind
+    - docker:dind
   before_script:
     - docker login -u heavyflood -p **0118ghdtn!!
   script:
