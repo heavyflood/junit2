@@ -21,6 +21,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import com.example.demo.controller.SampleController;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = DemoApplication.class)
 public class SampleTests {
