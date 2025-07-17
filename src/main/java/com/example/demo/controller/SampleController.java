@@ -15,7 +15,7 @@ public class SampleController {
     }
 
     @PostMapping("/sample/welcome/{name}")
-    public String welcome(@PathVariable String name){
+    public USer welcome(@PathVariable String name){
         String msg = "Welcome Miss or Mr. " + name;
         return msg;
     }
