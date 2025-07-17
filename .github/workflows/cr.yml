@@ -16,4 +16,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENAI_API_KEY: ${{ secrets.OPEN_AI_SECRETS }}
-          LANGUAGE: Korean
+          LANGUAGE: "Korean"
